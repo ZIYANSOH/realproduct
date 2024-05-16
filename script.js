@@ -1,30 +1,51 @@
-const employees = [
-    { name: "John Doe", workstreams: ["#Marketing", "#Sales"] },
-    { name: "Jane Smith", workstreams: ["#Development", "#Marketing"] },
-    { name: "Michael Johnson", workstreams: ["#Sales"] },
-    { name: "Emily Brown", workstreams: ["#Marketing", "#Development"] },
-    { name: "David Wilson", workstreams: ["#Development"] }
-  ];
-  
-  const searchInput = document.getElementById('searchInput');
-  const employeeList = document.getElementById('employeeList');
-  
-  function displayEmployees(searchTerm) {
-    employeeList.innerHTML = '';
-    employees.forEach(employee => {
-      if (employee.workstreams.some(stream => stream.toLowerCase().includes(searchTerm.toLowerCase()))) {
-        const li = document.createElement('li');
-        li.className = 'employee';
-        li.textContent = employee.name;
-        employeeList.appendChild(li);
-      }
+var employees = [
+  {"name": "John Doe", "picture": "images/john.jpg", "workstream": ["IB evaluation", "Product clinics"]},
+  {"name": "Jane Smith", "picture": "images/jane.jpg", "workstream": ["GT MMF Framework", "GT Funding Framework"]}
+  // Add more employees as needed
+];
+var suggestedHashtags = ["IB", "Product Clinics", "GT MMF Framework", "Product Management", "Customer Service", "Finance"];
+
+document.addEventListener('DOMContentLoaded', function() {
+  var searchForm = document.getElementById('searchForm');
+  var workstreamInput = document.getElementById('workstreamInput');
+  var resultsDiv = document.getElementById('results');
+  var hashtagsList = document.getElementById('hashtagsList'); // Add this line
+
+  suggestedHashtags.forEach(function(hashtag) {
+    var listItem = document.createElement('li');
+    listItem.textContent = hashtag;
+    listItem.addEventListener('click', function() {
+        expertiseInput.value = hashtag;
+        searchForm.dispatchEvent(new Event('submit'));
     });
-  }
-  
-  searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.trim();
-    displayEmployees(searchTerm);
+    hashtagsList.appendChild(listItem);
+  }); // Add this line
+
+  searchForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      var workstreamInputValue = workstreamInput.value.toLowerCase();
+      var results = filterEmployeesByworkstream(workstreamInputValue);
+      displayResults(results);
   });
-  
-  // Initial display
-  displayEmployees('');
+
+  function filterEmployeesByworkstream(workstream) {
+      return employees.filter(function(employee) {
+          return employee.workstream.some(function(exp) {
+              return exp.toLowerCase().includes(workstream);
+          });
+      });
+  }
+
+  function displayResults(results) {
+      resultsDiv.innerHTML = '';
+      results.forEach(function(employee) {
+          var employeeDiv = document.createElement('div');
+          employeeDiv.innerHTML = `
+              <img src="${employee.picture}" alt="${employee.name}">
+              <p>${employee.name}</p>
+              <p>${employee.workstream.join(', ')}</p>
+          `;
+          resultsDiv.appendChild(employeeDiv);
+      });
+  }
+});

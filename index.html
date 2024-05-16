@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Directory</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Search</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
-  <h1>Employee Directory</h1>
-  <input type="text" id="searchInput" placeholder="Search by hashtags...">
-  <ul id="employeeList"></ul>
+    </form>
+      <div class="container">
+          <div class="content">
+              <div class="search">
+                  <h1>Find your Co-Worker! </h1>
+                  <form id="searchForm">
+                      <input type="text" id="workstreamInput" placeholder="Enter workstream...">
+                      <button type="submit">Search</button>
+                  </form>
+              </div>
+              <div class="description">
+                  <h4>How to Use:</h4>
+                  <ol>
+                      <li><strong>Search by Expertise:</strong> Use the search bar to enter keywords related to the workstreams of the co-worker you're looking for.</li>
+                      <li><strong>Explore Suggested Hashtags:</strong> Not sure where to start? Check out our list of suggested hashtags below the search bar. Click on any hashtag to instantly populate the search bar and find relevant co-workers.</li>
+              </div>
+          </div>
+      </div>
+  </body>
+  </html>
   
-  <script src="script.js"></script>
+    </div>
+    <div id="suggestedHashtags">
+      <p>Suggested Hashtags:</p>
+      <ul id="hashtagsList"></ul>
+    </div>
+    <div id="results"></div>
+
 </body>
-</html>
