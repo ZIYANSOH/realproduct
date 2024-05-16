@@ -5,35 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Search</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
 <body>
-    </form>
-      <div class="container">
-          <div class="content">
-              <div class="search">
-                  <h1>Find your Co-Worker! </h1>
-                  <form id="searchForm">
-                      <input type="text" id="workstreamInput" placeholder="Enter workstream...">
-                      <button type="submit">Search</button>
-                  </form>
-              </div>
-              <div class="description">
-                  <h4>How to Use:</h4>
-                  <ol>
-                      <li><strong>Search by Expertise:</strong> Use the search bar to enter keywords related to the workstreams of the co-worker you're looking for.</li>
-                      <li><strong>Explore Suggested Hashtags:</strong> Not sure where to start? Check out our list of suggested hashtags below the search bar. Click on any hashtag to instantly populate the search bar and find relevant co-workers.</li>
-              </div>
-          </div>
-      </div>
-  </body>
-  </html>
-  
+    <div class="container">
+        <div class="content">
+            <div class="search">
+                <h1>Find your Co-Worker!</h1>
+                <form id="searchForm">
+                    <input type="text" id="workstreamInput" placeholder="Enter workstream...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div id="suggestedKeywords">
+                <p>Suggested Keywords:</p>
+                <ul id="keywordsList"></ul>
+            </div>
+            <div class="description">
+                <h4>How to Use:</h4>
+                <ol>
+                    <li><strong>Search by Expertise:</strong> Use the search bar to enter keywords related to the workstreams of the co-worker you're looking for.</li>
+                    <li><strong>Explore Suggested Keywords:</strong> Not sure where to start? Check out our list of suggested hashtags below the search bar. Click on any hashtag to instantly populate the search bar and find relevant co-workers.</li>
+                </ol>
+            </div>
+        </div>
     </div>
-    <div id="suggestedHashtags">
-      <p>Suggested Hashtags:</p>
-      <ul id="hashtagsList"></ul>
+    <div id="results" class="card-group">
+        <!-- Employee search results will be displayed here -->
     </div>
-    <div id="results"></div>
-
+    <div class="card-group">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-body-secondary"></small>
+        </div>
+    <script src="script.js"></script>
 </body>
+</html>
