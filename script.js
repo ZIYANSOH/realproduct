@@ -1,6 +1,18 @@
 var employees = [
-  {"name": "John Doe", "picture": "images/john.jpg", "workstream": ["IB evaluation", "Product clinics"]},
-  {"name": "Jane Smith", "picture": "images/jane.jpg", "workstream": ["GT MMF Framework", "GT Funding Framework"]}
+  {
+    "name": "John Doe",
+    "picture": "images/john.jpg",
+    "workstream": ["IB evaluation", "Product clinics"],
+    "team": "SR",
+    "position": "Assistant Manager"
+  },
+  {
+    "name": "Jane Smith",
+    "picture": "images/jane.jpg",
+    "workstream": ["GT MMF Framework", "GT Funding Framework"],
+    "team": "SR",
+    "position": "Senior Manager"
+  }
   // Add more employees as needed
 ];
 
@@ -9,6 +21,7 @@ var suggestedKeywords = ["IB", "Product clinics", "GT MMF Framework", "GT Fundin
 document.addEventListener('DOMContentLoaded', function() {
   var searchForm = document.getElementById('searchForm');
   var workstreamInput = document.getElementById('workstreamInput');
+  var teamInput = document.getElementById('teamInput');
   var resultsDiv = document.getElementById('results');
   var keywordsList = document.getElementById('keywordsList');
 
@@ -19,22 +32,23 @@ document.addEventListener('DOMContentLoaded', function() {
         workstreamInput.value = keyword;
         searchForm.dispatchEvent(new Event('submit'));
     });
-    keywordsList.appendChild(listItem); // Changed from 'hashtagsList' to 'keywordsList'
+    keywordsList.appendChild(listItem);
   });
 
   searchForm.addEventListener('submit', function(event) {
     event.preventDefault();
     var workstreamInputValue = workstreamInput.value.trim().toLowerCase();
-    var results = workstreamInputValue !== '' ? filterEmployeesByWorkstream(workstreamInputValue) : [];
+    var teamInputValue = teamInput.value.trim().toLowerCase();
+    var results = filterEmployees(workstreamInputValue, teamInputValue);
     displayResults(results);
   });
 
-  // Function to filter employees by workstream
-  function filterEmployeesByWorkstream(workstream) {
+  // Function to filter employees
+  function filterEmployees(workstream, team) {
     return employees.filter(function(employee) {
       return employee.workstream.some(function(ws) {
         return ws.toLowerCase().includes(workstream);
-      });
+      }) && employee.team.toLowerCase().includes(team);
     });
   }
 
@@ -46,14 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var img = document.createElement('img');
     img.classList.add('card-img-top');
     img.alt = employee.name;
-    
-    // Check if the picture property exists in the employee object
-    if (employee.picture) {
-      img.src = employee.picture;
-    } else {
-      // If picture property is missing or empty, do not set the src attribute
-      img.src = 'placeholder.jpg'; // Use a placeholder image if picture is missing
-    }
+    img.src = employee.picture ? employee.picture : 'images/blank-profile-picture.jpg';
 
     var cardBody = document.createElement('div');
     cardBody.classList.add('card-body');
@@ -66,32 +73,35 @@ document.addEventListener('DOMContentLoaded', function() {
     workstream.classList.add('card-text');
     workstream.textContent = "Workstream: " + employee.workstream.join(', ');
 
+    var team = document.createElement('p');
+    team.classList.add('card-text');
+    team.textContent = "Team: " + employee.team;
+
     cardBody.appendChild(title);
     cardBody.appendChild(workstream);
-
-    var cardFooter = document.createElement('div');
-    cardFooter.classList.add('card-footer');
-
-    var lastUpdated = document.createElement('small');
-    lastUpdated.classList.add('text-body-secondary');
-    lastUpdated.textContent = "";
-
-    cardFooter.appendChild(lastUpdated);
+    cardBody.appendChild(team);
 
     card.appendChild(img);
     card.appendChild(cardBody);
-    card.appendChild(cardFooter);
 
     return card;
   }
 
   // Function to display search results
   function displayResults(results) {
-    resultsDiv.innerHTML = ''; // Clear previous results
-    results.forEach(function(employee) {
-      var card = generateCard(employee);
-      resultsDiv.appendChild(card);
-    });
+    // Clear previous results
+    resultsDiv.innerHTML = '';
+    
+    // Check if input is empty
+    if (workstreamInput.value.trim() === '') {
+      resultsDiv.style.display = 'none'; // Hide the results container
+    } else {
+      resultsDiv.style.display = 'flex'; // Show the results container
+      results.forEach(function(employee) {
+        var card = generateCard(employee);
+        resultsDiv.appendChild(card);
+      });
+    }
   }
 
   // Add event listener to the results container
@@ -99,6 +109,14 @@ document.addEventListener('DOMContentLoaded', function() {
     var card = event.target.closest('.card'); // Find the closest parent with the class 'card'
     if (card) {
       card.classList.toggle('active'); // Toggle the 'active' class
+    }
+  });
+
+  // Add event listener to the search input to hide results when cleared
+  workstreamInput.addEventListener('input', function() {
+    if (workstreamInput.value.trim() === '') {
+      resultsDiv.innerHTML = '';
+      resultsDiv.style.display = 'none';
     }
   });
 

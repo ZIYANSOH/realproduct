@@ -7,41 +7,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="search">
-                <h1>Find your Co-Worker!</h1>
-                <form id="searchForm">
-                    <input type="text" id="workstreamInput" placeholder="Enter workstream...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-            <div id="suggestedKeywords">
-                <p>Suggested Keywords:</p>
-                <ul id="keywordsList"></ul>
-            </div>
-            <div class="description">
-                <h4>How to Use:</h4>
-                <ol>
-                    <li><strong>Search by Expertise:</strong> Use the search bar to enter keywords related to the workstreams of the co-worker you're looking for.</li>
-                    <li><strong>Explore Suggested Keywords:</strong> Not sure where to start? Check out our list of suggested hashtags below the search bar. Click on any hashtag to instantly populate the search bar and find relevant co-workers.</li>
-                </ol>
+    <div class="main-container">
+        <div class="search-container">
+            <div class="left-content">
+                <div class="search">
+                    <h1>Find your Co-Worker!</h1>
+                    <div class="instruction-cards">
+                        <div class="instruction-card">
+                            <h3>Search</h3>
+                            <p>Enter a workstream name in the search bar and press Enter or click "Search"</p>
+                        </div>
+                        <div class="instruction-card">
+                            <h3>View Results</h3>
+                            <p>Results will display below, showing co-workers associated with the entered workstream</p>
+                        </div>
+                        <div class="instruction-card">
+                            <h3>Use Suggestions</h3>
+                            <p>Explore suggested keywords below the search bar to quickly refine your search</p>
+                        </div>
+                    </div>
+                    <form id="searchForm">
+                        <input type="text" id="workstreamInput" placeholder="Enter workstream...">
+                        <input type="text" id="teamInput" placeholder="Enter team...">
+                        <button type="submit">Search</button>
+                    </form>
+                    <div id="suggestedKeywords">
+                        <p>Suggested Keywords:</p>
+                        <ul id="keywordsList"></ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="results" class="card-group">
-        <!-- Employee search results will be displayed here -->
-    </div>
-    <div class="card-group">
-      <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-body-secondary"></small>
-        </div>
-    <script src="script.js"></script>
-</body>
-</html>
+        <div id="results" class="results-container"></div>
+        <script src="script.js"></script>
+    </body>
+    </html>

@@ -1,44 +1,41 @@
+
+.search h1 {
+  color: #007bff; /* Blue color */
+  text-align: center;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
-  color: #343a40;
+  color: #353440;
 }
 
-.container {
-  max-width: 800px;
+.main-container {
+  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #007bff;
+.search-container {
+  flex: 1;
+  margin-right: 20px;
+  min-width: 800px; /* Set a minimum width */
 }
 
-.search {
-  margin-bottom: 20px;
-}
-
-.description {
-  margin-top: 20px;
-}
 
 .search-label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  align-items: center
+  align-items: center;
 }
 
 input[type="text"] {
   padding: 8px;
-  width: calc(80% - 100px); /* Adjust width to leave space for the button */
+  width: calc(90% - 100px); /* Adjust width to leave space for the button */
   margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -56,76 +53,34 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
-.description h4 {
-  margin-bottom: 10px;
-}
-
-.description ol {
-  padding-left: 20px;
-}
-
-.description ol li {
-  margin-bottom: 10px;
-}
-
-.description p {
-  line-height: 1.6;
-}
-
-#suggestedKeywords {
-  margin-top: 10px;
-  white-space: autowrap;
-  color: gray;
-}
-
-.keywords-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-
-#keywordsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: inline-block; /* Ensure list items are displayed inline */
-}
-
-#keywordsList li {
-  display: inline-block; /* Display list items inline */
-  margin-right: 10px;
-  color: gray;
-  cursor: pointer;
-}
-
-/* Adjust the styles for the #results container */
-#results {
-  margin-top: 20px;
+.instruction-cards {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
-/* Add styles for the individual cards */
-.card {
+.instruction-card {
+  flex-basis: calc(30% - 20px);
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
   text-align: center;
-  margin: 10px;
 }
 
-/* Style the images inside the cards */
-.card img {
-  width: 300px; /* Increase the width */
-  height: 150px; /* Set the height to match the width for a square shape */
-  border-radius: 5px; /* Add border-radius for a rounded corner effect */
+.instruction-card h3 {
+  color: #007bff;
 }
 
-/* Add styles for the active card */
-.card.active .card-body {
-  display: block; /* Show the card body */
+.instruction-card p {
+  margin-top: 10px;
 }
 
-/* Hide the card body by default */
-.card-body {
-  display: none;
+
+#results {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
