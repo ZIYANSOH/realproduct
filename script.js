@@ -10,9 +10,17 @@ var employees = [
     "name": "Jane Smith",
     "picture": "images/jane.jpg",
     "workstream": ["GT MMF Framework", "GT Funding Framework"],
-    "team": "SR",
+    "team": "PD",
     "position": "Senior Manager"
-  }
+  }, 
+
+  {
+    "name": "Oliver Lee",
+    "picture": "images/oliver.jpg",
+    "workstream": ["Data Security, Digital Economy"],
+    "team": "CED",
+    "position": "Manager"
+  } 
   // Add more employees as needed
 ];
 
