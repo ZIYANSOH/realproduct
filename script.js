@@ -10,7 +10,11 @@ var employees = [
     "position": "Assistant Manager",
     "email": "john@gmail.com",
     "preferredCommunication": "Teams",
-    "reportingOfficer": "Alex Tan"
+    "location": "Funan",
+    "workInOfficeDays": ["Wednesday ", " Thursday"],
+    "reportingOfficer": "Alex Tan",
+    "id": 'johnDoe',
+    "reportingOfficerId": '#alexTan'
   },
   {
     "name": "Jane Smith",
@@ -20,7 +24,11 @@ var employees = [
     "position": "Senior Manager",
     "email": "jane@gmail.com",
     "preferredCommunication": "Email",
-    "reportingOfficer": "Benjamin Ong"
+    "location": "Funan",
+    "workInOfficeDays": ["Tuesday ", " Friday"],
+    "reportingOfficer": "Benjamin Ong",
+    "id": 'janeSmith',
+    "reportingOfficerId": '#benjaminOng'
   },
   {
     "name": "Oliver Lee",
@@ -30,7 +38,11 @@ var employees = [
     "position": "Manager",
     "email": "oliver@gmail.com",
     "preferredCommunication": "Email",
-    "reportingOfficer": "Dennis Phua"
+    "location": "HQ",
+    "workInOfficeDays": ["Tuesday ", " Wednesday"],
+    "reportingOfficer": "Dennis Phua",
+    "id": 'oliverLee',
+    "reportingOfficerId": '#dennisPhua'
   },
   {
     "name": "Alex Tan",
@@ -39,7 +51,10 @@ var employees = [
     "team": "SR",
     "position": "Director",
     "email": "alex@gmail.com",
-    "preferredCommunication": "Teams"
+    "preferredCommunication": "Teams",
+    "location": "Funan",
+    "workInOfficeDays": ["Wednesday ", " Thursday"],
+    "id": 'alexTan'
   },
   {
     "name": "Benjamin Ong",
@@ -48,7 +63,10 @@ var employees = [
     "team": "PD",
     "position": "Director",
     "email": "benjamin@gmail.com",
-    "preferredCommunication": "Email"
+    "preferredCommunication": "Email",
+    "location": "Funan",
+    "workInOfficeDays": ["Tuesday ", " Friday"],
+    "id": 'benjaminOng'
   },
   {
   "name": "Dennis Phua",
@@ -57,7 +75,10 @@ var employees = [
   "team": "CED",
   "position": "Director",
   "email": "dennis@gmail.com",
-  "preferredCommunication": "Teams"
+  "preferredCommunication": "Teams",
+  "location": "Funan",
+  "workInOfficeDays": ["Tuesday ", " Wednesday"],
+  "id": 'dennisPhua'
 }
 
 ];
@@ -92,22 +113,35 @@ document.addEventListener('DOMContentLoaded', function() {
     displayResults(results);
   });
 
-  function filterEmployees(workstream, team, position) {
-    return employees.filter(function(employee) {
+  // Mapping of positions to numerical ranks
+const positionRanks = {
+  "Assistant Manager": 1,
+  "Manager": 2,
+  "Senior Manager": 3,
+  "Assistant Director": 4,
+  "Director": 5
+};
+
+function filterEmployees(workstream, team, position) {
+  return employees.filter(function(employee) {
       var matchesWorkstream = employee.workstream.some(function(ws) {
-        return ws.toLowerCase().includes(workstream);
+          return ws.toLowerCase().includes(workstream);
       });
 
       var matchesTeam = team === '' || employee.team.toLowerCase().includes(team);
 
-      var matchesPosition = position === '' || employee.position.toLowerCase() === position; // Check position filter
+      var matchesPosition = position === '' || employee.position.toLowerCase() === position;
 
-      return matchesWorkstream && matchesTeam && matchesPosition; // Add position filter condition
-    });
-  }
+      return matchesWorkstream && matchesTeam && matchesPosition;
+  }).sort(function(a, b) {
+      // Sort by position ranks
+      return positionRanks[a.position] - positionRanks[b.position];
+  });
+}
 
   function generateCard(employee) {
     var card = document.createElement('div');
+    card.setAttribute('id', employee.id);
     card.classList.add('card');
 
     var img = document.createElement('img');
@@ -142,45 +176,82 @@ document.addEventListener('DOMContentLoaded', function() {
     position.classList.add('card-text');
     position.innerHTML = "Position: " + employee.position;
 
+    var location = document.createElement('p');
+    location.classList.add('card-text');
+    location.innerHTML = "Location: " + employee.location; 
+
+    var workInOfficeDays = document.createElement('p')
+    workInOfficeDays.classList.add('card-text');
+    workInOfficeDays.innerHTML = "Work in Office Days: " + employee.workInOfficeDays;
+
     cardBody.appendChild(title);
     cardBody.appendChild(workstream);
     cardBody.appendChild(team);
     cardBody.appendChild(email);
     cardBody.appendChild(communication);
     cardBody.appendChild(position); // Append position element
+    cardBody.appendChild(location);
+    cardBody.appendChild(workInOfficeDays)
 
     if (employee.position.toLowerCase() !== "director") {
-      var reportingOfficer = document.createElement('p');
-      reportingOfficer.classList.add('card-text');
-      reportingOfficer.innerHTML = "Reporting Officer: " + employee.reportingOfficer;
-      cardBody.appendChild(reportingOfficer);
+        var reportingOfficer = document.createElement('a');
+        reportingOfficer.href = employee.reportingOfficerId;
+        reportingOfficer.textContent = employee.reportingOfficer;
+        reportingOfficer.classList.add('card-text');
+        reportingOfficer.innerHTML = "Reporting Officer: " + employee.reportingOfficer;
+        cardBody.appendChild(reportingOfficer);
     }
 
     card.appendChild(img);
     card.appendChild(cardBody);
 
     return card;
-  }
+}function displayResults(results) {
+  resultsDiv.innerHTML = '';
+  var workstreamValue = workstreamInput.value.trim().toLowerCase();
+  var teamValue = teamInput.value.trim().toLowerCase();
 
-  function displayResults(results) {
-    resultsDiv.innerHTML = '';
-    var workstreamValue = workstreamInput.value.trim().toLowerCase();
-    var teamValue = teamInput.value.trim().toLowerCase(); // Get position filter value
-  
-    if (workstreamValue === '' && teamValue === '') {
+  if (workstreamValue === '' && teamValue === '') {
       resultsDiv.style.display = 'none';
-    } else {
-      resultsDiv.style.display = 'flex';
-      results.forEach(function(employee) {
-        // Check if workstream or position matches
-        if (workstreamValue === '' || employee.workstream.some(function(ws) { 
-            return ws.toLowerCase().includes(workstreamValue);
-          }) || employee.team.toLowerCase().includes(teamValue)) {
-          var card = generateCard(employee);
-          resultsDiv.appendChild(card);
-        }
-      });
-    }
+  } else {
+      if (results.length === 0) {
+          // Display a message if no results are found
+          var message = document.createElement('p');
+          message.textContent = "There are currently no individuals tagged to this workstream. Please check for any typos, and ensure you have typed in the right workstream and corresponding team. Else, you can reach out to other team members for clarifications. If you think this is an error and would like to update the database, please contact HR.";
+          resultsDiv.appendChild(message);
+      } else {
+          resultsDiv.style.display = 'flex';
+          results.forEach(function(employee) {
+              // Check if workstream or position matches
+              if (workstreamValue === '' || employee.workstream.some(function(ws) {
+                      return ws.toLowerCase().includes(workstreamValue);
+                  }) || employee.team.toLowerCase().includes(teamValue)) {
+                  var card = generateCard(employee);
+                  resultsDiv.appendChild(card);
+              }
+          });
+  }
+}
+
+  // function displayResults(results) {
+  //   resultsDiv.innerHTML = '';
+  //   var workstreamValue = workstreamInput.value.trim().toLowerCase();
+  //   var teamValue = teamInput.value.trim().toLowerCase(); // Get position filter value
+  
+  //   if (workstreamValue === '' && teamValue === '') {
+  //     resultsDiv.style.display = 'none';
+  //   } else {
+  //     resultsDiv.style.display = 'flex';
+  //     results.forEach(function(employee) {
+  //       // Check if workstream or position matches
+  //       if (workstreamValue === '' || employee.workstream.some(function(ws) { 
+  //           return ws.toLowerCase().includes(workstreamValue);
+  //         }) || employee.team.toLowerCase().includes(teamValue)) {
+  //         var card = generateCard(employee);
+  //         resultsDiv.appendChild(card);
+  //       }
+  //     });
+  //   }
   }
   
 
