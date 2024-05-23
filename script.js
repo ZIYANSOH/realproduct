@@ -130,7 +130,11 @@ function filterEmployees(workstream, team, position) {
 
       var matchesTeam = team === '' || employee.team.toLowerCase().includes(team);
 
-      var matchesPosition = position === '' || employee.position.toLowerCase() === position;
+        var staffPositions = ["assistant manager", "manager", "senior manager", "assistant director"];
+        var isStaffLevel = staffPositions.includes(employee.position.toLowerCase());
+
+        var matchesPosition = position === '' || (position === 'staff' && isStaffLevel) ||
+                              (position === 'director' && employee.position.toLowerCase() === 'director');
 
       return matchesWorkstream && matchesTeam && matchesPosition;
   }).sort(function(a, b) {
@@ -233,25 +237,6 @@ function filterEmployees(workstream, team, position) {
   }
 }
 
-  // function displayResults(results) {
-  //   resultsDiv.innerHTML = '';
-  //   var workstreamValue = workstreamInput.value.trim().toLowerCase();
-  //   var teamValue = teamInput.value.trim().toLowerCase(); // Get position filter value
-  
-  //   if (workstreamValue === '' && teamValue === '') {
-  //     resultsDiv.style.display = 'none';
-  //   } else {
-  //     resultsDiv.style.display = 'flex';
-  //     results.forEach(function(employee) {
-  //       // Check if workstream or position matches
-  //       if (workstreamValue === '' || employee.workstream.some(function(ws) { 
-  //           return ws.toLowerCase().includes(workstreamValue);
-  //         }) || employee.team.toLowerCase().includes(teamValue)) {
-  //         var card = generateCard(employee);
-  //         resultsDiv.appendChild(card);
-  //       }
-  //     });
-  //   }
   }
   
 
