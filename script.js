@@ -197,14 +197,17 @@ function filterEmployees(workstream, team, position) {
     cardBody.appendChild(location);
     cardBody.appendChild(workInOfficeDays)
 
+  
     if (employee.position.toLowerCase() !== "director") {
-        var reportingOfficer = document.createElement('a');
-        reportingOfficer.href = employee.reportingOfficerId;
-        reportingOfficer.textContent = employee.reportingOfficer;
-        reportingOfficer.classList.add('card-text');
-        reportingOfficer.innerHTML = "Reporting Officer: " + employee.reportingOfficer;
-        cardBody.appendChild(reportingOfficer);
-    }
+      var reportingOfficerLink = document.createElement('a');
+      reportingOfficerLink.href = employee.reportingOfficerId;
+      reportingOfficerLink.textContent = employee.reportingOfficer;
+      var reportingOfficerText = document.createElement('a');
+      reportingOfficerText.classList.add('card-text');
+      reportingOfficerText.innerHTML = "Reporting Officer: ";
+      reportingOfficerText.appendChild(reportingOfficerLink);
+      cardBody.appendChild(reportingOfficerText);
+  }
 
     card.appendChild(img);
     card.appendChild(cardBody);
