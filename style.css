@@ -84,3 +84,48 @@ button:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
+
+/* Ensure all card images are the same size */
+.card-img-top {
+  width: 500px;  /* Set the desired width */
+  height: 300px; /* Set the desired height */
+  object-fit: fit; /* Ensure the image covers the entire area while maintaining aspect ratio */
+}
+/* Ensure the results container flexes properly */
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results-container.many-results {
+  display: block;
+}
+
+/* Style for each card */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 20px;
+  width: 400px;
+  box-sizing: border-box;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.card-body {
+  padding: 2px;
+}
+
+/* Media query to handle vertical stacking when there are many results */
+@media screen and (min-width: 600px) {
+  .results-container.many-results .card {
+    width: calc(100% - 10px);
+    margin: 10px 0;
+  }
+}
+

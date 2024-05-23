@@ -11,24 +11,31 @@
         <div class="search-container">
             <div class="left-content">
                 <div class="search">
-                    <h1>Find your Co-Worker!</h1>
-                    <div class="instruction-cards">
-                        <div class="instruction-card">
-                            <h3>Search</h3>
-                            <p>Enter a workstream name in the search bar and press Enter or click "Search"</p>
-                        </div>
-                        <div class="instruction-card">
-                            <h3>View Results</h3>
-                            <p>Results will display below, showing co-workers associated with the entered workstream</p>
-                        </div>
-                        <div class="instruction-card">
-                            <h3>Use Suggestions</h3>
-                            <p>Click directly on the suggested keywords to populate the search bar for a quick search.</p>
-                        </div>
+                    <h1 style="color: blue;">Find your Co-Worker!</h1>
+                    <div id="howToUse">
+                        <h2>How to Use</h2>
+                        <div class="instruction-cards">
+                            <div class="instruction-card">
+                                <h3>Search</h3>
+                                <p>Enter a workstream name in the search bar and press Enter or click "Search"</p>
+                            </div>
+                            <div class="instruction-card">
+                                <h3>View Results</h3>
+                                <p>Results will display below, showing co-workers associated with the entered workstream</p>
+                            </div>
+                            <div class="instruction-card">
+                                <h3>Use Suggestions</h3>
+                                <p>Explore suggested keywords below the search bar to quickly refine your search</p>
+                            </div>
+                        </div>                    
                     </div>
                     <form id="searchForm">
                         <input type="text" id="workstreamInput" placeholder="Enter workstream...">
                         <input type="text" id="teamInput" placeholder="Enter team...">
+                        <select id="positionFilter"> 
+                            <option value="">All Positions</option>
+                            <option value="director">Director</option>
+                        </select>
                         <button type="submit">Search</button>
                     </form>
                     <div id="suggestedKeywords">
@@ -39,6 +46,7 @@
             </div>
         </div>
         <div id="results" class="results-container"></div>
-        <script src="script.js"></script>
-    </body>
-    </html>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

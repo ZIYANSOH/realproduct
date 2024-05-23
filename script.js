@@ -1,35 +1,74 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Your existing JavaScript code goes here
+});
 var employees = [
   {
     "name": "John Doe",
     "picture": "images/john.jpg",
     "workstream": ["IB evaluation", "Product clinics"],
     "team": "SR",
-    "position": "Assistant Manager"
+    "position": "Assistant Manager",
+    "email": "john@gmail.com",
+    "preferredCommunication": "Teams",
+    "reportingOfficer": "Alex Tan"
   },
   {
     "name": "Jane Smith",
     "picture": "images/jane.jpg",
     "workstream": ["GT MMF Framework", "GT Funding Framework"],
     "team": "PD",
-    "position": "Senior Manager"
-  }, 
-
+    "position": "Senior Manager",
+    "email": "jane@gmail.com",
+    "preferredCommunication": "Email",
+    "reportingOfficer": "Benjamin Ong"
+  },
   {
     "name": "Oliver Lee",
     "picture": "images/oliver.jpg",
-    "workstream": ["Data Security, Digital Economy"],
+    "workstream": ["Data Security", "Digital Economy"],
     "team": "CED",
-    "position": "Manager"
-  } 
-  // Add more employees as needed
+    "position": "Manager",
+    "email": "oliver@gmail.com",
+    "preferredCommunication": "Email",
+    "reportingOfficer": "Dennis Phua"
+  },
+  {
+    "name": "Alex Tan",
+    "picture": "images/alex.jpg",
+    "workstream": ["IB evaluation", "Product clinics"],
+    "team": "SR",
+    "position": "Director",
+    "email": "alex@gmail.com",
+    "preferredCommunication": "Teams"
+  },
+  {
+    "name": "Benjamin Ong",
+    "picture": "images/benjamin.jpg",
+    "workstream": ["GT MMF Framework", "GT Funding Framework"],
+    "team": "PD",
+    "position": "Director",
+    "email": "benjamin@gmail.com",
+    "preferredCommunication": "Email"
+  },
+  {
+  "name": "Dennis Phua",
+  "picture": "images/dennis.jpg",
+  "workstream": ["Data Security", "Digital Economy"],
+  "team": "CED",
+  "position": "Director",
+  "email": "dennis@gmail.com",
+  "preferredCommunication": "Teams"
+}
+
 ];
 
-var suggestedKeywords = ["IB", "Product clinics", "GT MMF Framework", "GT Funding Framework", "Product Management", "Customer Service", "Finance"];
+var suggestedKeywords = ["IB", "Product clinics", "GT MMF Framework", "GT Funding Framework", "Data Security", "Digital Economy", "Cybersecurity"];
 
 document.addEventListener('DOMContentLoaded', function() {
   var searchForm = document.getElementById('searchForm');
   var workstreamInput = document.getElementById('workstreamInput');
   var teamInput = document.getElementById('teamInput');
+  var positionFilter = document.getElementById('positionFilter'); // Add position filter
   var resultsDiv = document.getElementById('results');
   var keywordsList = document.getElementById('keywordsList');
 
@@ -47,20 +86,26 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
     var workstreamInputValue = workstreamInput.value.trim().toLowerCase();
     var teamInputValue = teamInput.value.trim().toLowerCase();
-    var results = filterEmployees(workstreamInputValue, teamInputValue);
+    var positionFilterValue = positionFilter.value.trim().toLowerCase(); // Get position filter value
+    console.log(positionFilterValue);
+    var results = filterEmployees(workstreamInputValue, teamInputValue, positionFilterValue); // Pass position filter value
     displayResults(results);
   });
 
-  // Function to filter employees
-  function filterEmployees(workstream, team) {
+  function filterEmployees(workstream, team, position) {
     return employees.filter(function(employee) {
-      return employee.workstream.some(function(ws) {
+      var matchesWorkstream = employee.workstream.some(function(ws) {
         return ws.toLowerCase().includes(workstream);
-      }) && employee.team.toLowerCase().includes(team);
+      });
+
+      var matchesTeam = team === '' || employee.team.toLowerCase().includes(team);
+
+      var matchesPosition = position === '' || employee.position.toLowerCase() === position; // Check position filter
+
+      return matchesWorkstream && matchesTeam && matchesPosition; // Add position filter condition
     });
   }
 
-  // Function to generate cards for each employee
   function generateCard(employee) {
     var card = document.createElement('div');
     card.classList.add('card');
@@ -85,9 +130,31 @@ document.addEventListener('DOMContentLoaded', function() {
     team.classList.add('card-text');
     team.textContent = "Team: " + employee.team;
 
+    var email = document.createElement('p');
+    email.classList.add('card-text');
+    email.innerHTML = "Email: " + employee.email;
+
+    var communication = document.createElement('p');
+    communication.classList.add('card-text');
+    communication.innerHTML = "Preferred Communication: " + employee.preferredCommunication;
+
+    var position = document.createElement('p'); // Add position element
+    position.classList.add('card-text');
+    position.innerHTML = "Position: " + employee.position;
+
     cardBody.appendChild(title);
     cardBody.appendChild(workstream);
     cardBody.appendChild(team);
+    cardBody.appendChild(email);
+    cardBody.appendChild(communication);
+    cardBody.appendChild(position); // Append position element
+
+    if (employee.position.toLowerCase() !== "director") {
+      var reportingOfficer = document.createElement('p');
+      reportingOfficer.classList.add('card-text');
+      reportingOfficer.innerHTML = "Reporting Officer: " + employee.reportingOfficer;
+      cardBody.appendChild(reportingOfficer);
+    }
 
     card.appendChild(img);
     card.appendChild(cardBody);
@@ -95,32 +162,35 @@ document.addEventListener('DOMContentLoaded', function() {
     return card;
   }
 
-  // Function to display search results
   function displayResults(results) {
-    // Clear previous results
     resultsDiv.innerHTML = '';
-    
-    // Check if input is empty
-    if (workstreamInput.value.trim() === '') {
-      resultsDiv.style.display = 'none'; // Hide the results container
+    var workstreamValue = workstreamInput.value.trim().toLowerCase();
+    var teamValue = teamInput.value.trim().toLowerCase(); // Get position filter value
+  
+    if (workstreamValue === '' && teamValue === '') {
+      resultsDiv.style.display = 'none';
     } else {
-      resultsDiv.style.display = 'flex'; // Show the results container
+      resultsDiv.style.display = 'flex';
       results.forEach(function(employee) {
-        var card = generateCard(employee);
-        resultsDiv.appendChild(card);
+        // Check if workstream or position matches
+        if (workstreamValue === '' || employee.workstream.some(function(ws) { 
+            return ws.toLowerCase().includes(workstreamValue);
+          }) || employee.team.toLowerCase().includes(teamValue)) {
+          var card = generateCard(employee);
+          resultsDiv.appendChild(card);
+        }
       });
     }
   }
+  
 
-  // Add event listener to the results container
   resultsDiv.addEventListener('click', function(event) {
-    var card = event.target.closest('.card'); // Find the closest parent with the class 'card'
+    var card = event.target.closest('.card');
     if (card) {
-      card.classList.toggle('active'); // Toggle the 'active' class
+      card.classList.toggle('active');
     }
   });
 
-  // Add event listener to the search input to hide results when cleared
   workstreamInput.addEventListener('input', function() {
     if (workstreamInput.value.trim() === '') {
       resultsDiv.innerHTML = '';
@@ -128,6 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Example usage: Display all employees initially
-  displayResults(employees);
+teamInput.addEventListener('input', function() {
+    displayResults(results);
+});
+
 });
