@@ -1,6 +1,9 @@
+//ensures that the JavaScript code inside the function will only run after the entire HTML document has been fully loaded and parsed by the browser. This event does not wait for stylesheets, images, and subframes to finish loading, but it ensures that the DOM is ready for manipulation.
 document.addEventListener('DOMContentLoaded', function() {
+
   // Your existing JavaScript code goes here
 });
+// employees array, which holds the data set of employee objects. 
 var employees = [
   {
     "name": "John Doe",
